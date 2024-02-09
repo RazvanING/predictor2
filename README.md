@@ -1,0 +1,1 @@
+This is a software application designed to predict the performances of a ultralight aircraft/drone.
