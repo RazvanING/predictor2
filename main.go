@@ -1,32 +1,40 @@
 package main
 
 import (
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
 
+type App struct {
+	output *widget.Label
+}
+
+var myApp App
+
 func main() {
-	myApp := app.New()
-	myWindow := myApp.NewWindow("My First Desktop App")
+	a := app.New()
+	w := a.NewWindow("Placeholder")
 
-	// Create a label
-	label := widget.NewLabel("Hello, World!")
+	output, entry, btn := myApp.makeUI()
 
-	// Create a button
-	button := widget.NewButton("Click Me", func() {
-		label.SetText("Button Clicked!")
+	w.SetContent(container.NewVBox(output, entry, btn))
+	w.Resize(fyne.Size{Width: 500, Height: 500})
+	w.ShowAndRun()
+
+}
+
+func (app *App) makeUI() (*widget.Label, *widget.Entry, *widget.Button) {
+
+	output := widget.NewLabel("Placeholder")
+	entry := widget.NewEntry()
+	btn := widget.NewButton("Enter", func() {
+		app.output.SetText(entry.Text)
 	})
+	btn.Importance = widget.HighImportance
 
-	// Create a layout with the label and button
-	content := container.NewVBox(
-		label,
-		button,
-	)
+	app.output = output
 
-	// Set the content of the window
-	myWindow.SetContent(content)
-
-	// Run the application
-	myWindow.ShowAndRun()
+	return output, entry, btn
 }
